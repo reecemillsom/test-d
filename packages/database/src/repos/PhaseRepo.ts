@@ -5,7 +5,7 @@ export class PhaseRepo {
   constructor(private phaseModel: Model<Phase>) {}
 
   public async create(data: Pick<Phase, 'name'>): Phase {
-    return await this.phaseModel.create(data);
+    return this.phaseModel.create(data);
   }
 
   public async updateCompleted(data: Pick<Phase, 'completed' | '_id'>): Phase {

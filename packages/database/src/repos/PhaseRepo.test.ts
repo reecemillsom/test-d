@@ -2,7 +2,7 @@ import { Phase } from 'types';
 import { PhaseRepo } from './PhaseRepo';
 import { connectToDb, disconnectDb, dropCollections } from '../utils';
 import { databaseTestURI } from '../constants';
-import { PhaseModel } from '../models/PhaseModel';
+import { PhaseModel } from '../models';
 
 describe('PhaseRepo', () => {
   beforeAll(async () => {
