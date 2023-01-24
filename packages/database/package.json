@@ -1,0 +1,15 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc index.ts --outDir dist",
+    "test": "../../node_modules/.bin/jest --coverage"
+  },
+  "dependencies": {
+    "mongodb": "^4.13.0",
+    "mongoose": "^6.8.4",
+    "types": "*"
+  },
+  "devDependencies": {}
+}
