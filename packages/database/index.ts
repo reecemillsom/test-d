@@ -1,1 +1,1 @@
-export * from './src/subtract';
+export * from './src';

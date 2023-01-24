@@ -1,4 +1,5 @@
-import { Phase } from 'types';
+import mongoose from 'mongoose';
+import { Phase, Task } from 'types';
 import { PhaseRepo } from './PhaseRepo';
 import { connectToDb, disconnectDb, dropCollections } from '../utils';
 import { databaseTestURI } from '../constants';
@@ -55,7 +56,84 @@ describe('PhaseRepo', () => {
     });
   });
 
-  describe('updateCompleted', () => {
+  describe('createTask', () => {
+    let phase: Phase;
+    let phaseRepo: PhaseRepo;
+    beforeAll(async () => {
+      phase = await PhaseModel.create({
+        name: 'Phase 1',
+      });
+
+      phaseRepo = new PhaseRepo(PhaseModel);
+    });
+
+    it('will add a task to a Phase', async () => {
+      const phaseId = phase._id;
+      const data: Task = {
+        name: 'Task 1',
+        completed: false,
+      };
+      const result = await phaseRepo.createTask(phaseId, data);
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          name: 'Phase 1',
+          phaseNo: 1,
+          tasks: [expect.objectContaining(data)],
+          completed: false,
+        })
+      );
+    });
+  });
+
+  describe('updateTaskCompletion', () => {
+    let taskId: mongoose.Types.ObjectId;
+    let phase: Phase;
+    let phaseRepo: PhaseRepo;
+    beforeAll(async () => {
+      taskId = new mongoose.Types.ObjectId();
+
+      phase = await PhaseModel.create({
+        name: 'Phase 1',
+        tasks: [
+          {
+            _id: taskId,
+            name: 'Task 1',
+            completed: false,
+          },
+        ],
+      });
+
+      phaseRepo = new PhaseRepo(PhaseModel);
+    });
+
+    it('will update the task completion status correctly', async () => {
+      const phaseId = phase._id;
+      const data = { completed: true };
+
+      const result = await phaseRepo.updateTaskCompletion(
+        phaseId,
+        taskId.toString(),
+        data
+      );
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          name: 'Phase 1',
+          phaseNo: 1,
+          completed: false,
+          tasks: [
+            expect.objectContaining({
+              name: 'Task 1',
+              completed: true,
+            }),
+          ],
+        })
+      );
+    });
+  });
+
+  describe('updateCompletedPhase', () => {
     let phase: Phase;
     let phaseRepo: PhaseRepo;
     beforeAll(async () => {
@@ -70,7 +148,7 @@ describe('PhaseRepo', () => {
       expect(phase.completed).toBe(false);
 
       const data = { _id: phase._id, completed: true };
-      const result = await phaseRepo.updateCompleted(data);
+      const result = await phaseRepo.updateCompletedPhase(data);
 
       expect(result.completed).toEqual(true);
     });
