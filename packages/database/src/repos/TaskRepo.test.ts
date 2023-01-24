@@ -7,11 +7,14 @@ import { TaskModel } from '../models';
 describe('TaskRepo', () => {
   beforeAll(async () => {
     await connectToDb(databaseTestURI);
-    await dropCollections();
   });
 
   afterAll(async () => {
     await disconnectDb();
+  });
+
+  afterEach(async () => {
+    await dropCollections();
   });
 
   describe('create', () => {
