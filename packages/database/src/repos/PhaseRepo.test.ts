@@ -7,30 +7,51 @@ import { PhaseModel } from '../models';
 describe('PhaseRepo', () => {
   beforeAll(async () => {
     await connectToDb(databaseTestURI);
-    await dropCollections();
   });
 
   afterAll(async () => {
     await disconnectDb();
   });
 
+  afterEach(async () => {
+    await dropCollections();
+  });
+
   describe('create', () => {
-    let phaseRepo: PhaseRepo;
-    beforeAll(() => {
-      phaseRepo = new PhaseRepo(PhaseModel);
+    describe('when creating a single document', () => {
+      let phaseRepo: PhaseRepo;
+      beforeAll(() => {
+        phaseRepo = new PhaseRepo(PhaseModel);
+      });
+
+      it('will create a phase successfully', async () => {
+        const data = { name: 'Foundation' };
+
+        expect(await phaseRepo.create(data)).toEqual(
+          expect.objectContaining({
+            name: 'Foundation',
+            phaseNo: 1,
+            tasks: [],
+            completed: false,
+          })
+        );
+      });
     });
 
-    it('will create a phase successfully', async () => {
-      const data = { name: 'Foundation' };
+    describe('when creating multiple documents', () => {
+      let phaseRepo: PhaseRepo;
+      beforeAll(() => {
+        phaseRepo = new PhaseRepo(PhaseModel);
+      });
 
-      expect(await phaseRepo.create(data)).toEqual(
-        expect.objectContaining({
-          name: 'Foundation',
-          phaseNo: 0,
-          tasks: [],
-          completed: false,
-        })
-      );
+      it('will create phases with auto increments phase numbers', async () => {
+        const data = { name: 'Foundation' };
+        const resultOne = await phaseRepo.create(data);
+        const resultTwo = await phaseRepo.create(data);
+
+        expect(resultOne.phaseNo).toBe(1);
+        expect(resultTwo.phaseNo).toBe(2);
+      });
     });
   });
 

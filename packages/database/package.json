@@ -9,7 +9,10 @@
   "dependencies": {
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.4",
+    "mongoose-sequence": "^5.3.1",
     "types": "*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/mongoose-sequence": "^3.0.7"
+  }
 }
