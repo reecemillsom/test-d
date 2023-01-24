@@ -1,12 +1,13 @@
 import { Phase } from 'types';
 import { PhaseRepo } from './PhaseRepo';
-import { connectToDb, disconnectDb } from '../utils';
+import { connectToDb, disconnectDb, dropCollections } from '../utils';
 import { databaseTestURI } from '../constants';
 import { PhaseModel } from '../models/PhaseModel';
 
 describe('PhaseRepo', () => {
   beforeAll(async () => {
     await connectToDb(databaseTestURI);
+    await dropCollections();
   });
 
   afterAll(async () => {
