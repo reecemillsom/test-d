@@ -1,18 +1,20 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "type": "module",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "start": "npm run-script build && node dist/index.js"
+    "start": "ts-node src/index.ts",
+    "test": "../../node_modules/.bin/jest --coverage"
   },
   "dependencies": {
     "@apollo/server": "^4.3.1",
     "database": "*",
     "graphql": "^16.6.0",
+    "ts-node": "^10.9.1",
     "type-graphql": "^2.0.0-beta.1",
-    "types": "*"
+    "types": "*",
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@types/node": "^18.11.18"

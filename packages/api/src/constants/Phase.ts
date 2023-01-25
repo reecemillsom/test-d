@@ -7,4 +7,9 @@ export const Phase = {
     COMPLETED_DESCRIPTION:
       'The status of whether or not this phase is completed',
   },
+  query: {
+    GET_DESCRIPTION: 'This will retrieve you a single phase',
+    LIST_DESCRIPTION: 'This will retrieve you a list of phases',
+    ID_DESCRIPTION: 'This is the id of the phase you wish to find',
+  },
 };
