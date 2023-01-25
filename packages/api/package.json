@@ -2,12 +2,19 @@
   "name": "api",
   "version": "1.0.0",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "build": "tsc index.ts --outDir dist"
+    "build": "tsc",
+    "start": "npm run-script build && node dist/index.js"
   },
   "dependencies": {
+    "@apollo/server": "^4.3.1",
     "database": "*",
+    "graphql": "^16.6.0",
+    "type-graphql": "^2.0.0-beta.1",
     "types": "*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^18.11.18"
+  }
 }

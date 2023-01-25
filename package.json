@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "class-validator": "^0.14.0"
+  },
   "devDependencies": {
     "@nrwl/nx-cloud": "latest",
     "@types/jest": "^29.2.6",
