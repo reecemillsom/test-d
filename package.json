@@ -5,7 +5,9 @@
   "scripts": {},
   "private": true,
   "dependencies": {
-    "class-validator": "^0.14.0"
+    "class-validator": "^0.14.0",
+    "reflect-metadata": "^0.1.13",
+    "typedi": "^0.10.0"
   },
   "devDependencies": {
     "@nrwl/nx-cloud": "latest",

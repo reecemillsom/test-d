@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc index.ts --outDir dist",
+    "build": "tsc",
     "test": "../../node_modules/.bin/jest --coverage"
   },
   "dependencies": {

@@ -1,8 +1,18 @@
 import { Model } from 'mongoose';
+import { Service } from 'typedi';
 import { Phase, Task } from 'types';
 
+@Service()
 export class PhaseRepo {
   constructor(private phaseModel: Model<Phase>) {}
+
+  public async get(phaseId: string): Promise<Phase> {
+    return this.phaseModel.findById(phaseId);
+  }
+
+  public async list(): Promise<Phase[]> {
+    return this.phaseModel.find();
+  }
 
   public async create(data: Pick<Phase, 'name'>): Promise<Phase> {
     return this.phaseModel.create(data);

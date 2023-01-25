@@ -18,6 +18,74 @@ describe('PhaseRepo', () => {
     await dropCollections();
   });
 
+  describe('get', () => {
+    let phases: Phase[];
+    let phaseRepo: PhaseRepo;
+    beforeAll(async () => {
+      phases = await PhaseModel.create([
+        {
+          name: 'Phase 1',
+        },
+        {
+          name: 'Phase 2',
+        },
+      ]);
+
+      phaseRepo = new PhaseRepo(PhaseModel);
+    });
+
+    it('will find the correct document successfully', async () => {
+      const resultOne = await phaseRepo.get(phases[0]._id);
+      const resultTwo = await phaseRepo.get(phases[1]._id);
+
+      expect(resultOne).toEqual(
+        expect.objectContaining({
+          _id: phases[0]._id,
+          name: 'Phase 1',
+        })
+      );
+
+      expect(resultTwo).toEqual(
+        expect.objectContaining({
+          _id: phases[1]._id,
+          name: 'Phase 2',
+        })
+      );
+    });
+  });
+
+  describe('list', () => {
+    let phases: Phase[];
+    let phaseRepo: PhaseRepo;
+    beforeAll(async () => {
+      phases = await PhaseModel.create([
+        {
+          name: 'Phase 1',
+        },
+        {
+          name: 'Phase 2',
+        },
+      ]);
+
+      phaseRepo = new PhaseRepo(PhaseModel);
+    });
+
+    it('will return all phases correctly', async () => {
+      const result = await phaseRepo.list();
+
+      expect(result).toEqual([
+        expect.objectContaining({
+          _id: phases[0]._id,
+          name: 'Phase 1',
+        }),
+        expect.objectContaining({
+          _id: phases[1]._id,
+          name: 'Phase 2',
+        }),
+      ]);
+    });
+  });
+
   describe('create', () => {
     describe('when creating a single document', () => {
       let phaseRepo: PhaseRepo;
