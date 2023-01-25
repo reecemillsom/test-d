@@ -2,7 +2,8 @@
   "name": "types",
   "version": "1.0.0",
   "scripts": {
-    "build": "rm -rf dist/ && tsc index.ts --declaration --outDir dist"
+    "build": "npm run-script clean && tsc index.ts --declaration --outDir dist",
+    "clean": "rm -rf dist/"
   },
   "dependencies": {}
 }

@@ -2,10 +2,9 @@ import { PhaseResolver } from './PhaseResolver';
 
 describe('PhaseResolver', () => {
   describe('getPhase', () => {
-    let mockPhaseRepo: any;
     let phaseResolver: PhaseResolver;
     beforeAll(() => {
-      mockPhaseRepo = {
+      const mockPhaseRepo: any = {
         get: jest.fn().mockResolvedValue({
           _id: 'someId',
           name: 'Phase 1',
@@ -28,10 +27,9 @@ describe('PhaseResolver', () => {
   });
 
   describe('getPhases', () => {
-    let mockPhaseRepo: any;
     let phaseResolver: PhaseResolver;
     beforeAll(() => {
-      mockPhaseRepo = {
+      const mockPhaseRepo: any = {
         list: jest.fn().mockResolvedValue([
           {
             _id: 'someId',
@@ -64,6 +62,75 @@ describe('PhaseResolver', () => {
           phaseNo: 2,
         },
       ]);
+    });
+  });
+
+  describe('createPhase', () => {
+    let phaseResolver: PhaseResolver;
+    beforeAll(() => {
+      const phaseRepoMock: any = {
+        create: jest.fn().mockReturnValue({
+          _id: 'someId',
+          name: 'Phase 1',
+          phaseNo: 1,
+        }),
+      };
+
+      phaseResolver = new PhaseResolver(phaseRepoMock);
+    });
+
+    it('will create the phase with the data passed', async () => {
+      const data: any = { name: 'Phase 1' };
+
+      const result = await phaseResolver.createPhase(data);
+
+      expect(result).toEqual({
+        _id: 'someId',
+        name: 'Phase 1',
+        phaseNo: 1,
+      });
+    });
+  });
+
+  describe('createTask', () => {
+    let taskData: any;
+    let phaseResolver: PhaseResolver;
+    beforeAll(() => {
+      taskData = { phaseId: 'phaseId', name: 'Task 1' };
+
+      const phaseRepoMock: any = {
+        createTask: jest.fn().mockResolvedValue({
+          _id: 'phaseId',
+          name: 'Phase 1',
+          completed: false,
+          tasks: [
+            {
+              _id: 'someId',
+              name: 'Task 1',
+              completed: false,
+            },
+          ],
+        }),
+      };
+
+      phaseResolver = new PhaseResolver(phaseRepoMock);
+    });
+
+    it("will create a task and return the phase document it's in", async () => {
+      const result = await phaseResolver.createTask(taskData);
+
+      expect(result).toEqual({
+        _id: 'phaseId',
+        name: 'Phase 1',
+        completed: false,
+        tasks: [
+          {
+            _id: 'someId',
+            name: 'Task 1',
+            completed: false,
+          },
+        ],
+      });
     });
   });
 });

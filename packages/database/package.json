@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist/ && tsc",
+    "build": "npm run-script clean && tsc",
+    "clean": "rm -rf dist/",
     "test": "../../node_modules/.bin/jest --coverage"
   },
   "dependencies": {
