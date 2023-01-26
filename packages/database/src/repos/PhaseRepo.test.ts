@@ -130,6 +130,52 @@ describe('PhaseRepo', () => {
     });
   });
 
+  // TODO flakey test :/
+  describe('findMany', () => {
+    let phaseRepo: PhaseRepo;
+    beforeAll(async () => {
+      await PhaseModel.create([
+        {
+          name: 'Phase 1',
+          phaseNo: 1,
+        },
+        {
+          name: 'Phase 2',
+          phaseNo: 2,
+        },
+        {
+          name: 'Phase 3',
+          phaseNo: 3,
+        },
+      ]);
+
+      phaseRepo = new PhaseRepo();
+    });
+
+    it("will find the document's based on the filter", async () => {
+      const results = await phaseRepo.findMany({ phaseNo: { $gt: 1 } });
+
+      const phase2 = results.find((result) => result.phaseNo === 2);
+      const phase3 = results.find((result) => result.phaseNo === 3);
+
+      expect(results.length).toBe(2);
+
+      expect(phase2).toEqual(
+        expect.objectContaining({
+          name: 'Phase 2',
+          phaseNo: 2,
+        })
+      );
+
+      expect(phase3).toEqual(
+        expect.objectContaining({
+          name: 'Phase 3',
+          phaseNo: 3,
+        })
+      );
+    });
+  });
+
   describe('create', () => {
     describe('when creating a single document', () => {
       let phaseRepo: PhaseRepo;
@@ -267,6 +313,86 @@ describe('PhaseRepo', () => {
       const result = await phaseRepo.updatePhaseCompletion(data);
 
       expect(result.completed).toEqual(true);
+    });
+  });
+
+  describe('updatePhaseAndTasksCompletedFalse', () => {
+    const phaseOneId = new mongoose.Types.ObjectId();
+    const phaseTwoId = new mongoose.Types.ObjectId();
+    let phaseRepo: PhaseRepo;
+    beforeAll(async () => {
+      await PhaseModel.create([
+        {
+          _id: phaseOneId,
+          name: 'Phase 1',
+          completed: true,
+          tasks: [
+            {
+              name: 'Task 1',
+              completed: true,
+            },
+          ],
+        },
+        {
+          _id: phaseTwoId,
+          name: 'Phase 2',
+          completed: true,
+          tasks: [
+            {
+              name: 'Task 1',
+              completed: true,
+            },
+            {
+              name: 'Task 2',
+              completed: true,
+            },
+          ],
+        },
+      ]);
+
+      phaseRepo = new PhaseRepo();
+    });
+
+    it('will set the completed status for the phase and tasks to false', async () => {
+      await phaseRepo.updatePhaseAndTasksCompletedFalse([
+        phaseOneId.toString(),
+        phaseTwoId.toString(),
+      ]);
+
+      const updatedPhaseOne = await PhaseModel.findById(phaseOneId);
+      const updatedPhaseTwo = await PhaseModel.findById(phaseTwoId);
+
+      expect(updatedPhaseOne).toEqual(
+        expect.objectContaining({
+          _id: phaseOneId,
+          name: 'Phase 1',
+          completed: false,
+          tasks: [
+            expect.objectContaining({
+              name: 'Task 1',
+              completed: false,
+            }),
+          ],
+        })
+      );
+
+      expect(updatedPhaseTwo).toEqual(
+        expect.objectContaining({
+          _id: phaseTwoId,
+          name: 'Phase 2',
+          completed: false,
+          tasks: expect.arrayContaining([
+            expect.objectContaining({
+              name: 'Task 1',
+              completed: false,
+            }),
+            expect.objectContaining({
+              name: 'Task 1',
+              completed: false,
+            }),
+          ]),
+        })
+      );
     });
   });
 });

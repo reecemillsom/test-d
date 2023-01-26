@@ -22,6 +22,10 @@ export class PhaseRepo {
     return this.phaseModel.findOne(filter);
   }
 
+  public async findMany(filter): Promise<Phase[]> {
+    return this.phaseModel.find(filter);
+  }
+
   public async create(data: Pick<Phase, 'name'>): Promise<Phase> {
     return this.phaseModel.create(data);
   }
@@ -64,6 +68,20 @@ export class PhaseRepo {
       { _id: data._id },
       { completed: data.completed },
       { new: true }
+    );
+  }
+
+  public async updatePhaseAndTasksCompletedFalse(
+    phaseIds: string[]
+  ): Promise<void> {
+    await this.phaseModel.updateMany(
+      { _id: { $in: phaseIds } },
+      {
+        $set: {
+          completed: false,
+          'tasks.$[].completed': false,
+        },
+      }
     );
   }
 }
