@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Task } from 'types';
+import { Task } from 'lib';
 
 const { Schema } = mongoose;
 

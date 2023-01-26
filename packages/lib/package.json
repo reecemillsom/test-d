@@ -1,5 +1,5 @@
 {
-  "name": "types",
+  "name": "lib",
   "version": "1.0.0",
   "scripts": {
     "build": "npm run-script clean && tsc index.ts --declaration --outDir dist",

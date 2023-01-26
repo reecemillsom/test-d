@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 const AutoIncrements = require('mongoose-sequence')(mongoose);
-import { Phase } from 'types';
+import { Phase } from 'lib';
 import { TaskSchema } from './TaskSchema';
 
 const { Schema } = mongoose;

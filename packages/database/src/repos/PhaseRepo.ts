@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import { Service } from 'typedi';
-import { Phase, Task } from 'types';
+import { Phase, Task } from 'lib';
 
 @Service()
 export class PhaseRepo {
@@ -18,7 +18,7 @@ export class PhaseRepo {
     return this.phaseModel.create(data);
   }
 
-  public async createTask(phaseId: string, data: Task) {
+  public async createTask(phaseId: string, data: Pick<Task, 'name'>) {
     return this.phaseModel.findOneAndUpdate(
       {
         _id: phaseId,

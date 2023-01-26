@@ -8,10 +8,10 @@
     "test": "../../node_modules/.bin/jest --coverage"
   },
   "dependencies": {
+    "lib": "*",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.4",
-    "mongoose-sequence": "^5.3.1",
-    "types": "*"
+    "mongoose-sequence": "^5.3.1"
   },
   "devDependencies": {
     "@types/mongoose-sequence": "^3.0.7"

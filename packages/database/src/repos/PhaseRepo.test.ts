@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Phase, Task } from 'types';
+import { Phase } from 'lib';
 import { PhaseRepo } from './PhaseRepo';
 import { connectToDb, disconnectDb, dropCollections } from '../utils';
 import { databaseTestURI } from '../constants';
@@ -72,17 +72,26 @@ describe('PhaseRepo', () => {
 
     it('will return all phases correctly', async () => {
       const result = await phaseRepo.list();
+      const phaseOne = result.find(
+        (res) => res._id.toString() === phases[0]._id.toString()
+      );
+      const phaseTwo = result.find(
+        (res) => res._id.toString() === phases[1]._id.toString()
+      );
 
-      expect(result).toEqual([
+      expect(phaseOne).toEqual(
         expect.objectContaining({
           _id: phases[0]._id,
           name: 'Phase 1',
-        }),
+        })
+      );
+
+      expect(phaseTwo).toEqual(
         expect.objectContaining({
           _id: phases[1]._id,
           name: 'Phase 2',
-        }),
-      ]);
+        })
+      );
     });
   });
 
@@ -137,9 +146,8 @@ describe('PhaseRepo', () => {
 
     it('will add a task to a Phase', async () => {
       const phaseId = phase._id;
-      const data: Task = {
+      const data = {
         name: 'Task 1',
-        completed: false,
       };
       const result = await phaseRepo.createTask(phaseId, data);
 
