@@ -10,11 +10,11 @@
     "test": "../../node_modules/.bin/jest --coverage"
   },
   "dependencies": {
-    "database": "file:../database",
-    "lib": "file:../lib",
     "@apollo/server": "^4.3.1",
     "apollo-log": "^1.1.0",
+    "database": "file:../database",
     "graphql": "^16.6.0",
+    "lib": "file:../lib",
     "mongoose": "^6.8.4",
     "ts-node": "^10.9.1",
     "type-graphql": "^2.0.0-beta.1",
