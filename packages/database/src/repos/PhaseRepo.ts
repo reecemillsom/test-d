@@ -18,7 +18,7 @@ export class PhaseRepo {
     return this.phaseModel.find();
   }
 
-  public async find(filter: Partial<Omit<Phase, '_id'>>): Promise<Phase> {
+  public async findOne(filter: Partial<Omit<Phase, '_id'>>): Promise<Phase> {
     return this.phaseModel.findOne(filter);
   }
 

@@ -11,7 +11,7 @@ describe('PhaseService', () => {
             _id: 'phaseId',
             phaseNo: 1,
           }),
-          find: jest.fn().mockResolvedValue(null),
+          findOne: jest.fn().mockResolvedValue(null),
           updateTaskCompletion: jest.fn().mockResolvedValue({
             tasks: [],
           }),
@@ -54,7 +54,7 @@ describe('PhaseService', () => {
                 },
               ],
             }),
-            find: jest.fn().mockResolvedValue({
+            findOne: jest.fn().mockResolvedValue({
               name: 'Phase 1',
               phaseNo: 1,
               completed: false,
@@ -108,7 +108,7 @@ describe('PhaseService', () => {
                 },
               ],
             }),
-            find: jest.fn().mockResolvedValue({
+            findOne: jest.fn().mockResolvedValue({
               name: 'Phase 1',
               phaseNo: 1,
               completed: true,
@@ -171,7 +171,7 @@ describe('PhaseService', () => {
             phaseNo: 2,
             tasks,
           }),
-          find: jest.fn().mockResolvedValue({
+          findOne: jest.fn().mockResolvedValue({
             name: 'Phase 1',
             phaseNo: 1,
             completed: true,

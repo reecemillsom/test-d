@@ -97,7 +97,7 @@ describe('PhaseRepo', () => {
     });
   });
 
-  describe('find', () => {
+  describe('findOne', () => {
     let phaseRepo: PhaseRepo;
     beforeAll(async () => {
       await PhaseModel.create([
@@ -112,9 +112,12 @@ describe('PhaseRepo', () => {
     });
 
     it('will find the document based on the filter', async () => {
-      const resultOne = await phaseRepo.find({ phaseNo: 1 });
-      const resultTwo = await phaseRepo.find({ name: 'Phase 1' });
-      const resultThree = await phaseRepo.find({ name: 'Phase 1', phaseNo: 1 });
+      const resultOne = await phaseRepo.findOne({ phaseNo: 1 });
+      const resultTwo = await phaseRepo.findOne({ name: 'Phase 1' });
+      const resultThree = await phaseRepo.findOne({
+        name: 'Phase 1',
+        phaseNo: 1,
+      });
 
       const expected = expect.objectContaining({
         name: 'Phase 1',
