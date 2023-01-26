@@ -8,7 +8,9 @@
     "test": "../../node_modules/.bin/jest --coverage"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.191",
     "lib": "file:../lib",
+    "lodash": "^4.17.21",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.4",
     "mongoose-sequence": "^5.3.1"

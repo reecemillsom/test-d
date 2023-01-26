@@ -97,6 +97,36 @@ describe('PhaseRepo', () => {
     });
   });
 
+  describe('find', () => {
+    let phaseRepo: PhaseRepo;
+    beforeAll(async () => {
+      await PhaseModel.create([
+        {
+          name: 'Phase 1',
+          phaseNo: 1,
+        },
+      ]);
+
+      phaseRepo = new PhaseRepo();
+      phaseRepo.phaseModel = PhaseModel;
+    });
+
+    it('will find the document based on the filter', async () => {
+      const resultOne = await phaseRepo.find({ phaseNo: 1 });
+      const resultTwo = await phaseRepo.find({ name: 'Phase 1' });
+      const resultThree = await phaseRepo.find({ name: 'Phase 1', phaseNo: 1 });
+
+      const expected = expect.objectContaining({
+        name: 'Phase 1',
+        phaseNo: 1,
+      });
+
+      expect(resultOne).toEqual(expected);
+      expect(resultTwo).toEqual(expected);
+      expect(resultThree).toEqual(expected);
+    });
+  });
+
   describe('create', () => {
     describe('when creating a single document', () => {
       let phaseRepo: PhaseRepo;
@@ -215,7 +245,7 @@ describe('PhaseRepo', () => {
     });
   });
 
-  describe('updateCompletedPhase', () => {
+  describe('updatePhaseCompletion', () => {
     let phase: Phase;
     let phaseRepo: PhaseRepo;
     beforeAll(async () => {
@@ -231,7 +261,7 @@ describe('PhaseRepo', () => {
       expect(phase.completed).toBe(false);
 
       const data = { _id: phase._id, completed: true };
-      const result = await phaseRepo.updateCompletedPhase(data);
+      const result = await phaseRepo.updatePhaseCompletion(data);
 
       expect(result.completed).toEqual(true);
     });

@@ -18,6 +18,10 @@ export class PhaseRepo {
     return this.phaseModel.find();
   }
 
+  public async find(filter: Partial<Omit<Phase, '_id'>>): Promise<Phase> {
+    return this.phaseModel.findOne(filter);
+  }
+
   public async create(data: Pick<Phase, 'name'>): Promise<Phase> {
     return this.phaseModel.create(data);
   }
@@ -38,7 +42,7 @@ export class PhaseRepo {
     phaseId: string,
     taskId: string,
     data: Pick<Task, 'completed'>
-  ) {
+  ): Promise<Phase> {
     return this.phaseModel.findOneAndUpdate(
       {
         _id: phaseId,
@@ -53,7 +57,7 @@ export class PhaseRepo {
     );
   }
 
-  public async updateCompletedPhase(
+  public async updatePhaseCompletion(
     data: Pick<Phase, 'completed' | '_id'>
   ): Promise<Phase> {
     return this.phaseModel.findOneAndUpdate(
