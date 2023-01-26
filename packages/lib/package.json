@@ -1,9 +1,13 @@
 {
   "name": "lib",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npm run-script clean && tsc index.ts --declaration --outDir dist",
     "clean": "rm -rf dist/"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  }
 }

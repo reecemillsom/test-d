@@ -1,10 +1,14 @@
 import { Model } from 'mongoose';
 import { Service } from 'typedi';
 import { Phase, Task } from 'lib';
+import { PhaseModel } from '../models';
 
 @Service()
 export class PhaseRepo {
-  constructor(private phaseModel: Model<Phase>) {}
+  public phaseModel: Model<Phase>;
+  constructor() {
+    this.phaseModel = PhaseModel;
+  }
 
   public async get(phaseId: string): Promise<Phase> {
     return this.phaseModel.findById(phaseId);

@@ -12,7 +12,7 @@ export class PhaseResolver {
   @Query(() => PhaseSchema, { description: Phase.query.GET_DESCRIPTION })
   async getPhase(
     @Arg('id', { description: Phase.query.ID_DESCRIPTION }) id: string
-  ): Promise<void> {
+  ) {
     return this.phaseRepo.get(id);
   }
 

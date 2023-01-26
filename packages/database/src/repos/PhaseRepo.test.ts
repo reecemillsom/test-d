@@ -31,7 +31,8 @@ describe('PhaseRepo', () => {
         },
       ]);
 
-      phaseRepo = new PhaseRepo(PhaseModel);
+      phaseRepo = new PhaseRepo();
+      phaseRepo.phaseModel = PhaseModel;
     });
 
     it('will find the correct document successfully', async () => {
@@ -67,7 +68,8 @@ describe('PhaseRepo', () => {
         },
       ]);
 
-      phaseRepo = new PhaseRepo(PhaseModel);
+      phaseRepo = new PhaseRepo();
+      phaseRepo.phaseModel = PhaseModel;
     });
 
     it('will return all phases correctly', async () => {
@@ -99,7 +101,8 @@ describe('PhaseRepo', () => {
     describe('when creating a single document', () => {
       let phaseRepo: PhaseRepo;
       beforeAll(() => {
-        phaseRepo = new PhaseRepo(PhaseModel);
+        phaseRepo = new PhaseRepo();
+        phaseRepo.phaseModel = PhaseModel;
       });
 
       it('will create a phase successfully', async () => {
@@ -119,7 +122,8 @@ describe('PhaseRepo', () => {
     describe('when creating multiple documents', () => {
       let phaseRepo: PhaseRepo;
       beforeAll(() => {
-        phaseRepo = new PhaseRepo(PhaseModel);
+        phaseRepo = new PhaseRepo();
+        phaseRepo.phaseModel = PhaseModel;
       });
 
       it('will create phases with auto increments phase numbers', async () => {
@@ -141,7 +145,8 @@ describe('PhaseRepo', () => {
         name: 'Phase 1',
       });
 
-      phaseRepo = new PhaseRepo(PhaseModel);
+      phaseRepo = new PhaseRepo();
+      phaseRepo.phaseModel = PhaseModel;
     });
 
     it('will add a task to a Phase', async () => {
@@ -180,7 +185,8 @@ describe('PhaseRepo', () => {
         ],
       });
 
-      phaseRepo = new PhaseRepo(PhaseModel);
+      phaseRepo = new PhaseRepo();
+      phaseRepo.phaseModel = PhaseModel;
     });
 
     it('will update the task completion status correctly', async () => {
@@ -217,7 +223,8 @@ describe('PhaseRepo', () => {
         name: 'Foundation',
       });
 
-      phaseRepo = new PhaseRepo(PhaseModel);
+      phaseRepo = new PhaseRepo();
+      phaseRepo.phaseModel = PhaseModel;
     });
 
     it('will update the completed status successfully', async () => {

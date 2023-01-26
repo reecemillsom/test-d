@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "rootDirs": ["src"],
+    "rootDir": "src",
     "outDir": "dist",
     "lib": ["es2020"],
-    "target": "es2018",
-    "module": "esnext",
+    "target": "es2016",
+    "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "types": ["node", "jest"],
     "experimentalDecorators": true,
     "declaration": true
   },
-  "exclude": []
+  "exclude": ["src/**/*.test.ts"]
 }
