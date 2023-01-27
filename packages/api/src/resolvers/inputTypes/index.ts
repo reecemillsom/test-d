@@ -1,2 +1,2 @@
-export * from './CreatePhase';
+export * from './CreatePhaseInput';
 export * from './CreateTask';

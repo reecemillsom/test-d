@@ -3,7 +3,7 @@ import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { PhaseService } from 'database';
 import { PhaseSchema } from '../schemas';
 import { Phase } from '../constants';
-import { CreatePhase, CreateTask } from './inputTypes';
+import { CreatePhaseInput, CreateTask } from './inputTypes';
 
 @Service()
 @Resolver()
@@ -23,11 +23,11 @@ export class PhaseResolver {
     return this.phaseService.list();
   }
 
-  @Mutation(() => PhaseSchema, {
+  @Mutation((returns) => PhaseSchema, {
     description: Phase.mutation.createPhase.CREATE_DESCRIPTION,
   })
-  async createPhase(@Arg('data') newPhaseData: CreatePhase) {
-    return await this.phaseService.create(newPhaseData);
+  async createPhase(@Arg('data') newPhaseData: CreatePhaseInput) {
+    return this.phaseService.create(newPhaseData);
   }
 
   @Mutation(() => PhaseSchema, {
