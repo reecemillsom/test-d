@@ -1,4 +1,4 @@
-import PhaseService from './PhaseService';
+import { PhaseService } from './PhaseService';
 
 describe('PhaseService', () => {
   describe('updateTaskCompletion', () => {
@@ -18,7 +18,8 @@ describe('PhaseService', () => {
             }),
           };
 
-          phaseService = new PhaseService(phaseRepo);
+          phaseService = new PhaseService();
+          phaseService.phaseRepo = phaseRepo;
         });
 
         it('will mark the task as completed', async () => {
@@ -77,7 +78,8 @@ describe('PhaseService', () => {
               updateTaskCompletion: jest.fn(),
             };
 
-            phaseService = new PhaseService(phaseRepo);
+            phaseService = new PhaseService();
+            phaseService.phaseRepo = phaseRepo;
           });
 
           it('will throw a error', async () => {
@@ -135,7 +137,8 @@ describe('PhaseService', () => {
               }),
             };
 
-            phaseService = new PhaseService(phaseRepo);
+            phaseService = new PhaseService();
+            phaseService.phaseRepo = phaseRepo;
           });
 
           it('will update the task', async () => {
@@ -211,7 +214,8 @@ describe('PhaseService', () => {
             updatePhaseCompletion: jest.fn(),
           };
 
-          phaseService = new PhaseService(phaseRepo);
+          phaseService = new PhaseService();
+          phaseService.phaseRepo = phaseRepo;
         });
 
         it('will mark the phase as completed', async () => {
@@ -246,7 +250,8 @@ describe('PhaseService', () => {
             updatePhaseCompletion: jest.fn(),
           };
 
-          phaseService = new PhaseService(phaseRepo);
+          phaseService = new PhaseService();
+          phaseService.phaseRepo = phaseRepo;
         });
 
         it('will make the task not completed ', async () => {
@@ -315,7 +320,8 @@ describe('PhaseService', () => {
             updatePhaseAndTasksCompletedFalse: jest.fn(),
           };
 
-          phaseService = new PhaseService(phaseRepo);
+          phaseService = new PhaseService();
+          phaseService.phaseRepo = phaseRepo;
         });
 
         it('will set the next phases to completed false & unset completed tasks', async () => {

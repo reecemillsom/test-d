@@ -1,9 +1,7 @@
 import { Model } from 'mongoose';
-import { Service } from 'typedi';
 import { Phase, Task } from 'lib';
 import { PhaseModel } from '../models';
 
-@Service()
 export class PhaseRepo {
   public phaseModel: Model<Phase>;
   constructor() {

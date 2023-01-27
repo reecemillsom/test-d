@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { PhaseRepo } from 'database';
+import { PhaseService } from 'database';
 import { PhaseSchema } from '../schemas';
 import { Phase } from '../constants';
 import { CreatePhase, CreateTask } from './inputTypes';
@@ -8,26 +8,26 @@ import { CreatePhase, CreateTask } from './inputTypes';
 @Service()
 @Resolver()
 export class PhaseResolver {
-  constructor(private readonly phaseRepo: PhaseRepo) {}
+  constructor(private readonly phaseService: PhaseService) {}
   @Query(() => PhaseSchema, { description: Phase.query.GET_DESCRIPTION })
   async getPhase(
     @Arg('id', { description: Phase.query.ID_DESCRIPTION }) id: string
   ) {
-    return this.phaseRepo.get(id);
+    return this.phaseService.get(id);
   }
 
   @Query((returns) => [PhaseSchema], {
     description: Phase.query.LIST_DESCRIPTION,
   })
   async getPhases() {
-    return this.phaseRepo.list();
+    return this.phaseService.list();
   }
 
   @Mutation(() => PhaseSchema, {
     description: Phase.mutation.createPhase.CREATE_DESCRIPTION,
   })
   async createPhase(@Arg('data') newPhaseData: CreatePhase) {
-    return await this.phaseRepo.create(newPhaseData);
+    return await this.phaseService.create(newPhaseData);
   }
 
   @Mutation(() => PhaseSchema, {
@@ -35,6 +35,6 @@ export class PhaseResolver {
   })
   async createTask(@Arg('data') newTaskData: CreateTask) {
     const { phaseId, ...rest } = newTaskData;
-    return this.phaseRepo.createTask(phaseId, rest);
+    return this.phaseService.createTask(phaseId, rest);
   }
 }

@@ -15,8 +15,11 @@ interface UpdateTaskData {
 }
 
 @Service()
-export default class PhaseService {
-  constructor(private phaseRepo: PhaseRepo) {}
+export class PhaseService {
+  public phaseRepo: PhaseRepo;
+  constructor() {
+    this.phaseRepo = new PhaseRepo();
+  }
 
   public async get(phaseId: string): Promise<Phase> {
     return this.phaseRepo.get(phaseId);
