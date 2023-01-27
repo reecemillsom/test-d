@@ -1,14 +1,14 @@
 import { ObjectType, Field, ID } from 'type-graphql';
-import { Task } from '../constants';
+import { task as constants } from '../constants';
 
-@ObjectType({ description: Task.schema.SCHEMA_DEFINITION })
+@ObjectType({ description: constants.SCHEMA_DEFINITION })
 export class TaskSchema {
-  @Field(() => ID, { description: Task.schema.ID_DEFINITION })
+  @Field(() => ID, { description: constants.ID_DEFINITION })
   _id: string;
 
-  @Field({ description: Task.schema.NAME_DESCRIPTION })
+  @Field({ description: constants.NAME_DESCRIPTION })
   name: string;
 
-  @Field({ description: Task.schema.COMPLETED_DESCRIPTION })
+  @Field({ description: constants.COMPLETED_DESCRIPTION })
   completed: boolean;
 }

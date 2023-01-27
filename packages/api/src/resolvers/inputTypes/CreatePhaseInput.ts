@@ -1,9 +1,9 @@
 import { Field, InputType } from 'type-graphql';
 import { PhaseSchema } from '../../schemas';
-import { Phase } from '../../constants';
+import { createPhaseInput as constants } from '../../constants';
 
-@InputType({ description: Phase.mutation.createPhase.INPUT_TYPE_DESCRIPTION })
+@InputType({ description: constants.INPUT_TYPE_DESCRIPTION })
 export class CreatePhaseInput implements Partial<PhaseSchema> {
-  @Field()
+  @Field({ description: constants.NAME_DESCRIPTION })
   name: string;
 }

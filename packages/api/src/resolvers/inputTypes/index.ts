@@ -1,2 +1,3 @@
 export * from './CreatePhaseInput';
-export * from './CreateTask';
+export * from './CreateTaskInput';
+export * from './UpdateTaskCompletedInput';

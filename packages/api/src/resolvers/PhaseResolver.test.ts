@@ -93,11 +93,8 @@ describe('PhaseResolver', () => {
   });
 
   describe('createTask', () => {
-    let taskData: any;
     let phaseResolver: PhaseResolver;
     beforeAll(() => {
-      taskData = { phaseId: 'phaseId', name: 'Task 1' };
-
       const phaseRepoMock: any = {
         createTask: jest.fn().mockResolvedValue({
           _id: 'phaseId',
@@ -117,6 +114,7 @@ describe('PhaseResolver', () => {
     });
 
     it("will create a task and return the phase document it's in", async () => {
+      const taskData = { phaseId: 'phaseId', name: 'Task 1' };
       const result = await phaseResolver.createTask(taskData);
 
       expect(result).toEqual({
@@ -131,6 +129,42 @@ describe('PhaseResolver', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('updateTaskCompletedStatus', () => {
+    let phaseResolver: PhaseResolver;
+    beforeAll(() => {
+      const mockPhaseRepo: any = {
+        updateTaskCompletion: jest.fn().mockResolvedValue({
+          _id: 'someId',
+          name: 'Phase 1',
+          phaseNo: 1,
+          completed: true,
+          tasks: [
+            {
+              _id: 'taskId',
+              name: 'Task 1',
+              completed: true,
+            },
+          ],
+        }),
+      };
+
+      phaseResolver = new PhaseResolver(mockPhaseRepo);
+    });
+
+    it('will update the task and return the phase document', async () => {
+      const data = { phaseId: 'someId', taskId: 'taskId', completed: true };
+      const result = await phaseResolver.updateTaskCompletedStatus(data);
+
+      expect(result.tasks).toEqual([
+        {
+          _id: 'taskId',
+          name: 'Task 1',
+          completed: true,
+        },
+      ]);
     });
   });
 });
