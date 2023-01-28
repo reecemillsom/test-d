@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# coverage
+/packages/api/coverage/
+/packages/database/coverage/
+
 # compiled output
 dist
 tmp
