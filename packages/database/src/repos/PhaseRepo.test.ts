@@ -130,22 +130,22 @@ describe('PhaseRepo', () => {
     });
   });
 
-  // TODO flakey test :/
   describe('findMany', () => {
+    const phase2Id = new mongoose.Types.ObjectId();
+    const phase3Id = new mongoose.Types.ObjectId();
     let phaseRepo: PhaseRepo;
     beforeAll(async () => {
       await PhaseModel.create([
         {
           name: 'Phase 1',
-          phaseNo: 1,
         },
         {
+          _id: phase2Id,
           name: 'Phase 2',
-          phaseNo: 2,
         },
         {
+          _id: phase3Id,
           name: 'Phase 3',
-          phaseNo: 3,
         },
       ]);
 
@@ -153,24 +153,30 @@ describe('PhaseRepo', () => {
     });
 
     it("will find the document's based on the filter", async () => {
-      const results = await phaseRepo.findMany({ phaseNo: { $gt: 1 } });
+      const results = await phaseRepo.findMany({
+        _id: { $in: [phase2Id, phase3Id] },
+      });
 
-      const phase2 = results.find((result) => result.phaseNo === 2);
-      const phase3 = results.find((result) => result.phaseNo === 3);
+      const phase2 = results.find(
+        (result) => result._id.toString() === phase2Id.toString()
+      );
+      const phase3 = results.find(
+        (result) => result._id.toString() === phase3Id.toString()
+      );
 
       expect(results.length).toBe(2);
 
       expect(phase2).toEqual(
         expect.objectContaining({
+          _id: phase2Id,
           name: 'Phase 2',
-          phaseNo: 2,
         })
       );
 
       expect(phase3).toEqual(
         expect.objectContaining({
+          _id: phase3Id,
           name: 'Phase 3',
-          phaseNo: 3,
         })
       );
     });
