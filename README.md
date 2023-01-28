@@ -21,10 +21,11 @@ I wanted to see how it would all fit together with the typegraphql and ApolloSer
 * Cd back to the root of the project
 * Next we want to build all packages and ensure they do so correctly.
   * `npx nx run-many --target=build`
-* Next we want to spin up a mongo docker container, run these commands 
-  * `docker pull mongo`, this will pull the mongo image to later be able to run in a container
-  * `docker image ls`, copy the image id for mongo
-  * `docker run -d -p 27017:27017 <image id>`, this will run the container for the database on port 27017 which is the default mongo port. 
+* You can skip the below steps **IF** you already have a mongo instance running on port 27017
+  * Next we want to spin up a mongo docker container, run these commands 
+    * `docker pull mongo`, this will pull the mongo image to later be able to run in a container
+    * `docker image ls`, copy the image id for mongo
+    * `docker run -d -p 27017:27017 <image id>`, this will run the container for the database on port 27017 which is the default mongo port. 
 * Next we should be able to start the API, run the following command, in the root of the package
   * `npx nx start api`
 * If you wish to run the tests, you can from the root of the project

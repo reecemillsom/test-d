@@ -2,8 +2,10 @@ import { Service } from 'typedi';
 import { Phase, Task } from 'lib';
 import { every } from 'lodash';
 import { PhaseRepo } from '../repos/PhaseRepo';
+import { services as constants } from '../constants';
+import { replaceTextInString } from '../utils';
 
-// TODO didn't add tests for any many functions in this class,
+// TODO didn't add tests for all functions in this class,
 // as it's just forwarding data etc..
 // I created this layer incase there was more business logic that was needed,
 // and didn't want to pollute the db queries in repo.
@@ -22,7 +24,15 @@ export class PhaseService {
   }
 
   public async get(phaseId: string): Promise<Phase> {
-    return this.phaseRepo.get(phaseId);
+    const phase = await this.phaseRepo.get(phaseId);
+
+    if (!phase) {
+      throw new Error(
+        replaceTextInString(constants.CANNOT_FIND_PHASE, phaseId)(/:phaseId:/)
+      );
+    }
+
+    return phase;
   }
 
   public async list(): Promise<Phase[]> {
@@ -38,30 +48,57 @@ export class PhaseService {
   }
 
   public async createTask(phaseId: string, data: Pick<Task, 'name'>) {
+    const phase = await this.phaseRepo.get(phaseId);
+
+    if (!phase) {
+      throw new Error(
+        replaceTextInString(constants.CANNOT_FIND_PHASE, phaseId)(/:phaseId:/)
+      );
+    }
+
     return this.phaseRepo.createTask(phaseId, data);
   }
 
   public async updateTaskCompletion(data: UpdateTaskData): Promise<Phase> {
-    if (data.completed) {
-      return this.handleTruthyCompletedStatus(data);
+    const phase = await this.phaseRepo.get(data.phaseId);
+
+    if (!phase) {
+      throw new Error(
+        replaceTextInString(
+          constants.CANNOT_FIND_PHASE,
+          data.phaseId
+        )(/:phaseId:/)
+      );
     }
 
-    return this.handleFalsyCompletedStatus(data);
+    const doesTaskExist = phase.tasks?.find(
+      (task) => task._id.toString() === data.taskId
+    );
+
+    if (!doesTaskExist) {
+      throw new Error(
+        replaceTextInString(constants.CANNOT_FIND_TASK, data.taskId)(/:taskId:/)
+      );
+    }
+
+    if (data.completed) {
+      return this.handleTruthyCompletedStatus(data, phase);
+    }
+
+    return this.handleFalsyCompletedStatus(data, phase);
   }
 
-  private async handleTruthyCompletedStatus({
-    phaseId,
-    taskId,
-    ...completed
-  }: UpdateTaskData): Promise<Phase> {
-    const phase = await this.phaseRepo.get(phaseId);
+  private async handleTruthyCompletedStatus(
+    { phaseId, taskId, ...completed }: UpdateTaskData,
+    phase: Phase
+  ): Promise<Phase> {
     const previousPhase = await this.phaseRepo.findOne({
       phaseNo: phase.phaseNo - 1,
     });
 
     if (previousPhase && !previousPhase.completed) {
       throw new Error(
-        "Cannot mark this task as completed, as previous phase isn't finished"
+        replaceTextInString(constants.CANNOT_COMPLETED_TASK, taskId)(/:taskId:/)
       );
     }
 
@@ -77,12 +114,10 @@ export class PhaseService {
       : updatedPhase;
   }
 
-  private async handleFalsyCompletedStatus({
-    phaseId,
-    taskId,
-    ...completed
-  }: UpdateTaskData): Promise<Phase> {
-    const phase = await this.phaseRepo.get(phaseId);
+  private async handleFalsyCompletedStatus(
+    { phaseId, taskId, ...completed }: UpdateTaskData,
+    phase: Phase
+  ): Promise<Phase> {
     const nextPhases = await this.phaseRepo.findMany({
       _id: { $ne: phaseId },
       phaseNo: { $gt: phase.phaseNo },
